@@ -1,41 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import PizzaTopping from './PizzaTopping/PizzaTopping';
-
-import anchovy from '../../assets/anchovy.svg';
-import bacon from '../../assets/bacon.svg';
-import base from '../../assets/base.svg';
-import basil from '../../assets/basil.svg';
-import board from '../../assets/board.svg';
-import chili from '../../assets/chili.svg';
-import mozzarella from '../../assets/mozzarella.svg';
-import mushroom from '../../assets/mushroom.svg';
-import olive from '../../assets/olive.svg';
-import onion from '../../assets/onion.svg';
-import pepper from '../../assets/pepper.svg';
-import pepperoni from '../../assets/pepperoni.svg';
-import prawn from '../../assets/prawn.svg';
-import sweetcorn from '../../assets/sweetcorn.svg';
-import tomato from '../../assets/tomato.svg';
-
-const TOPPING_IMAGE = {
-  anchovy,
-  bacon,
-  base,
-  basil,
-  board,
-  chili,
-  mozzarella,
-  mushroom,
-  olive,
-  onion,
-  pepper,
-  pepperoni,
-  prawn,
-  sweetcorn,
-  tomato
-};
+import { connect } from 'react-redux';
+import Topping from './Topping';
 
 const Layout = styled.div`
   padding: 10px 15px;
@@ -47,7 +14,7 @@ const H3 = styled.h3`
   position: relative;
   margin-bottom: 25px;
 `;
-const PizzaToppingWrapper = styled.div`
+const ToppingWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   &:hover {
@@ -55,39 +22,25 @@ const PizzaToppingWrapper = styled.div`
   }
 `;
 
-const PickYourToppings = class extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { toppings: [] };
-  }
-  componentDidMount() {
-    const toppings = [];
-    for (const key in TOPPING_IMAGE) {
-      toppings.push({ name: key, toppingUrl: TOPPING_IMAGE[key] });
-    }
-    this.setState({ toppings });
-  }
-  render() {
-    const { title } = this.props;
-    const { toppings } = this.state;
-    return (
-      <Layout>
-        <H3>{title}</H3>
-        <PizzaToppingWrapper>
-          {toppings.map(topping => (
-            <PizzaTopping
-              key={topping.name}
-              toppingUrl={topping.toppingUrl}
-              name={topping.name}
-            />
-          ))}
-        </PizzaToppingWrapper>
-      </Layout>
-    );
-  }
-};
-PickYourToppings.propTypes = {
-  title: PropTypes.string.isRequired
+const PickYourToppings = ({ title, toppings }) => {
+  return (
+    <Layout>
+      <H3>{title}</H3>
+      <ToppingWrapper>
+        {toppings.map(topping => (
+          <Topping key={topping.name} topping={topping} />
+        ))}
+      </ToppingWrapper>
+    </Layout>
+  );
 };
 
-export default PickYourToppings;
+const mapStateToProps = state => ({
+  toppings: state.toppings
+});
+
+export default connect(mapStateToProps, null)(PickYourToppings);
+PickYourToppings.propTypes = {
+  title: PropTypes.string.isRequired,
+  toppings: PropTypes.array.isRequired
+};

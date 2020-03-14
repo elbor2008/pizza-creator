@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import OrderDetail from './OrderDetail';
+import { connect } from 'react-redux';
+import Detail from './Detail';
 
 const OrderWrapper = styled.div`
   color: #6e7790;
@@ -13,17 +14,27 @@ const OrderWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const Order = ({ title, amount, toppings }) => {
+const Order = ({ title, price, selectedToppings }) => {
   return (
     <>
       <OrderWrapper>
         <div>{title}</div>
-        <div>${amount}</div>
+        <div>${price}</div>
       </OrderWrapper>
-      <OrderDetail name="Mushroom" amount={0.99} />
-      <OrderDetail name="Bacon" amount={0.99} />
+      {selectedToppings.map(topping => (
+        <Detail key={topping.name} name={topping.name} price={topping.price} />
+      ))}
     </>
   );
 };
 
-export default Order;
+const mapStateToProps = state => ({
+  selectedToppings: state.selectedToppings
+});
+
+export default connect(mapStateToProps, null)(Order);
+Order.propTypes = {
+  title: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  selectedToppings: PropTypes.array.isRequired
+};

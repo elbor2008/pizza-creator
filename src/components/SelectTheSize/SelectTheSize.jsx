@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import PizzaSize from './PizzaSize';
-import pizzaUrl from '../../assets/pizza.svg';
+import { connect } from 'react-redux';
+import Size from './Size';
+import url from '../../assets/pizza.svg';
 
 const Layout = styled.div`
   padding: 10px 15px;
@@ -14,28 +15,39 @@ const H3 = styled.h3`
   position: relative;
   margin-bottom: 25px;
 `;
-const PizzaSizeWrapper = styled.div`
+const SizeWrapper = styled.div`
   display: flex;
   align-items: center;
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
-const SelectTheSize = ({ title }) => {
+const SelectTheSize = ({ title, sizes, selectedSize }) => {
   return (
     <Layout>
       <H3>{title}</H3>
-      <PizzaSizeWrapper>
-        <PizzaSize pizzaUrl={pizzaUrl} size={60} text={'Large (13")'} />
-        <PizzaSize pizzaUrl={pizzaUrl} size={50} text={'Medium (11")'} />
-        <PizzaSize pizzaUrl={pizzaUrl} size={40} text={'Small (9")'} />
-      </PizzaSizeWrapper>
+      <SizeWrapper>
+        {sizes.map(size => (
+          <Size
+            key={size.text}
+            url={url}
+            percentage={size.percentage}
+            text={size.text}
+            price={size.price}
+            chosen={size.percentage === selectedSize.percentage}
+          />
+        ))}
+      </SizeWrapper>
     </Layout>
   );
 };
 
+const mapStateToProps = ({ sizes, selectedSize }) => ({
+  sizes,
+  selectedSize
+});
+
+export default connect(mapStateToProps, null)(SelectTheSize);
 SelectTheSize.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  selectedSize: PropTypes.object.isRequired,
+  sizes: PropTypes.array.isRequired
 };
-export default SelectTheSize;

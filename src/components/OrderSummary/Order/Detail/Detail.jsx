@@ -14,16 +14,20 @@ const Label = styled.label`
   margin-left: 10px;
 `;
 
-const OrderDetail = ({ name, amount }) => {
+const Detail = ({ name, price }) => {
   return (
     <Layout>
       <div>
-        <i class="fa fa-plus"></i>
+        <i className="fa fa-plus"></i>
         <Label>{name}</Label>
       </div>
-      <div>${amount}</div>
+      <div>${price}</div>
     </Layout>
   );
 };
 
-export default OrderDetail;
+export default Detail;
+Detail.propTypes = {
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired
+};

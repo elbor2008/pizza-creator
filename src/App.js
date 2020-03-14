@@ -1,11 +1,13 @@
 import React from 'react';
 import Section from './components/Section';
 import styled from 'styled-components';
+import { Provider } from 'react-redux';
 import EnterYourDetails from './components/EnterYourDetails';
 import SelectTheSize from './components/SelectTheSize';
 import PickYourToppings from './components/PickYourToppings';
 import OrderSummary from './components/OrderSummary';
 import Total from './components/OrderSummary/Total/Total';
+import store from './stores';
 
 const Layout = styled.div`
   padding: 20px 30px;
@@ -28,20 +30,22 @@ const PlaceOrderButton = styled.button`
 
 const App = () => {
   return (
-    <Layout>
-      <Section title="Enter your details">
-        <EnterYourDetails />
-      </Section>
-      <Section title="Choose your pizza">
-        <SelectTheSize title="Select the size *" />
-        <PickYourToppings title="Pick your toppings" />
-      </Section>
-      <Section title="Order summary">
-        <OrderSummary />
-        <Total />
-      </Section>
-      <PlaceOrderButton>Place order</PlaceOrderButton>
-    </Layout>
+    <Provider store={store}>
+      <Layout>
+        <Section title="Enter your details">
+          <EnterYourDetails />
+        </Section>
+        <Section title="Choose your pizza">
+          <SelectTheSize title="Select the size *" />
+          <PickYourToppings title="Pick your toppings" />
+        </Section>
+        <Section title="Order summary">
+          <OrderSummary />
+          <Total />
+        </Section>
+        <PlaceOrderButton>Place order</PlaceOrderButton>
+      </Layout>
+    </Provider>
   );
 };
 
