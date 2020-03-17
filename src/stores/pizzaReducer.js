@@ -1,4 +1,4 @@
-import { SELECT_SIZE, ADD_TOPPING } from './actionType';
+import { SELECT_SIZE, ADD_TOPPING } from './pizzaActionType';
 import anchovy from '../assets/anchovy.svg';
 import bacon from '../assets/bacon.svg';
 import base from '../assets/base.svg';

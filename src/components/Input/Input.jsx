@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const LabelWrapper = styled.div`
   margin: 0 30px 20px 0;
-  flex-grow: 1;
+  flex-basis: calc((100% / 3) - 30px);
 `;
 const Label = styled.label`
   font-size: 12px;
@@ -30,14 +30,17 @@ const DetailInput = styled.input`
   color: rgba(0, 0, 0, 0.8);
   width: 100%;
 `;
+const ErrorMsg = styled.label`
+  color: #e01d3b;
+`;
 
-const Input = ({ title }) => {
+const Input = ({ title, name, getField }) => {
   return (
     <LabelWrapper>
       <Label>
         {title} <Star>*</Star>
       </Label>
-      <DetailInput type="text" />
+      {getField(<DetailInput name={name} />)}
     </LabelWrapper>
   );
 };

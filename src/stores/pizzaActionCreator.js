@@ -1,4 +1,4 @@
-import { SELECT_SIZE, ADD_TOPPING } from './actionType';
+import { SELECT_SIZE, ADD_TOPPING } from './pizzaActionType';
 
 export const selectSize = size => ({
   type: SELECT_SIZE,

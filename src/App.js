@@ -8,6 +8,7 @@ import PickYourToppings from './components/PickYourToppings';
 import OrderSummary from './components/OrderSummary';
 import Total from './components/OrderSummary/Total/Total';
 import store from './stores';
+import ValidatorForm from './components/Validator';
 
 const Layout = styled.div`
   padding: 20px 30px;
@@ -28,12 +29,12 @@ const PlaceOrderButton = styled.button`
   }
 `;
 
-const App = () => {
+const App = ({ getField, validateAll }) => {
   return (
     <Provider store={store}>
       <Layout>
         <Section title="Enter your details">
-          <EnterYourDetails />
+          <EnterYourDetails getField={getField} />
         </Section>
         <Section title="Choose your pizza">
           <SelectTheSize title="Select the size *" />
@@ -43,10 +44,16 @@ const App = () => {
           <OrderSummary />
           <Total />
         </Section>
-        <PlaceOrderButton>Place order</PlaceOrderButton>
+        <PlaceOrderButton
+          onClick={() => {
+            validateAll();
+          }}
+        >
+          Place order
+        </PlaceOrderButton>
       </Layout>
     </Provider>
   );
 };
 
-export default App;
+export default ValidatorForm(App);
