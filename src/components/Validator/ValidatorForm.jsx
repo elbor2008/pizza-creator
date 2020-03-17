@@ -11,7 +11,7 @@ export default Comp => {
     constructor(props) {
       super(props);
       this.state = {};
-      this.fields = {};
+      this.fieldNames = [];
     }
     handleChange = e => {
       const { name, value } = e.target;
@@ -37,15 +37,17 @@ export default Comp => {
       return hasError;
     };
     validateAll = cb => {
-      const errors = Object.keys(this.fields).map(name =>
+      const errors = this.fieldNames.map(name =>
         this.validate(name, this.state[name] || '')
       );
       const isValid = errors.every(error => !error);
-      cb(isValid, this.state);
+      cb && cb(isValid, this.state);
     };
     getField = input => {
       const { name } = input.props;
-      this.fields[name] = name;
+      if(!this.fieldNames.includes(name)) {
+        this.fieldNames.push(name);
+      }
       return (
         <>
           {React.cloneElement(input, {
